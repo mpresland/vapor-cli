@@ -10,9 +10,17 @@ class RewriteAssetUrlsTest extends TestCase
     /**
      * @dataProvider assetUrlDataProvider
      */
-    public function test_asset_urls_are_rewritten($css, $expected)
+    public function test_css_asset_urls_are_rewritten($css, $expected)
     {
         $this->assertEquals($expected, RewriteAssetUrls::inCssString($css, 'http://example.com'));
+    }
+
+    /**
+     * @dataProvider assetUrlDataProvider
+     */
+    public function test_js_asset_urls_are_rewritten($js, $expected)
+    {
+        $this->assertEquals($expected, RewriteAssetUrls::inJsString($js, 'http://example.com'));
     }
 
 

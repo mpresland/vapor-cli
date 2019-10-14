@@ -44,14 +44,24 @@ class ProcessAssets
         Helpers::step('<bright>Processing Assets</>');
 
         foreach (AssetFiles::get($this->appPath.'/public') as $file) {
-            if (! Str::endsWith($file->getRealPath(), '.css')) {
+            if (! Str::endsWith($file->getRealPath(), '.css')
+                || !Str::endsWith($file->getRealPath(), '.js')) {
                 continue;
             }
 
-            file_put_contents(
-                $file->getRealPath(),
-                RewriteAssetUrls::inCssString(file_get_contents($file->getRealPath()), $this->assetUrl)
-            );
+            if (Str::endsWith($file->getRealPath(), '.css')) {
+                file_put_contents(
+                    $file->getRealPath(),
+                    RewriteAssetUrls::inCssString(file_get_contents($file->getRealPath()), $this->assetUrl)
+                );
+            }
+
+            if (Str::endsWith($file->getRealPath(), '.js')) {
+                file_put_contents(
+                    $file->getRealPath(),
+                    RewriteAssetUrls::inJsString(file_get_contents($file->getRealPath()), $this->assetUrl)
+                );
+            }
         }
     }
 }
